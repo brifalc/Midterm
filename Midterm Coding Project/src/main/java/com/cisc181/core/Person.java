@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*
- * comment
- */
+
 public abstract class Person implements java.io.Serializable {
 
 	private Date DOB;
@@ -46,12 +44,6 @@ public abstract class Person implements java.io.Serializable {
 		return DOB;
 	}
 
-	public void setDOB(Date DOB){
-		this.DOB = DOB;
-		
-		
-	}
-
 	public void setAddress(String newAddress) {
 		address = newAddress;
 	}
@@ -60,10 +52,6 @@ public abstract class Person implements java.io.Serializable {
 		return address;
 	}
 
-	public void setPhone(String newPhone_number) {
-		phone_number = newPhone_number;
-	
-	}
 
 	public String getPhone() {
 		return phone_number;
@@ -89,15 +77,26 @@ public abstract class Person implements java.io.Serializable {
 	 */
 
 	public Person(String FirstName, String MiddleName, String LastName,
-			Date DOB, String Address, String Phone_number, String Email)
+			Date DOB, String Address, String Phone_number, String Email) throws PersonException
 	{
+
+
 		this.FirstName = FirstName;
 		this.MiddleName = MiddleName;
 		this.LastName = LastName;
-		this.setDOB(DOB);
+		this.DOB = DOB;
 		this.address = Address;
-		this.setPhone(Phone_number);
+		this.phone_number = phone_number;
 		this.email_address = Email;
+
+		if (PrintAge()>100){
+			throw new PersonException(this);
+		}
+		
+		String regex = "(\\d{3}-){1,2}\\d{4}";
+		if(!phone_number.matches(regex)){
+			throw new PersonException(this);
+		}
 		
 	}
 
